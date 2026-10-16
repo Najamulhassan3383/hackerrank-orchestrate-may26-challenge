@@ -1,0 +1,7 @@
+{
+  "status": "replied",
+  "product_area": "traveller's cheques",
+  "response": "I'm sorry to hear your Visa Traveller's Cheques were stolen. According to our support documents, you should immediately call the issuing bank, Citicorp, to report them lost or stolen. The contact details for Citicorp are: Freephone: 1-800-645-6556 or Collect: 1-813-623-1709. Their customer service hours are Monday-Friday, 6:30 am to 2:30 pm EST, but automated cheque verification is available 24/7. You should also notify the local police in Lisbon. When you call, have information ready such as the cheque serial numbers, where and when you bought them, and details of the theft to help arrange a refund or replacement.",
+  "justification": "The support documents provide a clear, direct procedure and specific contact information for reporting lost or stolen traveller's cheques issued by Citicorp, which matches the user's situation.",
+  "request_type": "product_issue"
+}

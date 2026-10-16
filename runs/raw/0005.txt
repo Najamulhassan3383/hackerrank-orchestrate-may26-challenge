@@ -1,0 +1,7 @@
+{
+  "status": "replied",
+  "product_area": "account_deletion",
+  "response": "To delete your HackerRank Community account that was created using Google login, you must first set a password for your account. According to our documentation, if you signed up using a third-party account like Google, you need to set a password before you can delete the account. Please follow the steps in the 'Resetting password' documentation to set a password. After that, you can log in, go to Settings, scroll to the 'Delete Accounts' section, and follow the deletion process. If you cannot access your Google account to set a password, please contact help@hackerrank.com for assistance.",
+  "justification": "The support documents provide a clear procedure for deleting an account created with a third-party login, which requires setting a password first.",
+  "request_type": "product_issue"
+}

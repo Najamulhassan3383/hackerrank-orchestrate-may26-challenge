@@ -1,1 +1,55 @@
 issue,subject,company,response,product_area,status,request_type,justification
+I notice that people I assigned the test in October of 2025 have not received new tests. How long do the tests stay active in the system.,Test Active in the system,HackerRank,"Hello, thank you for your question. According to our documentation, a test's active period is controlled by its 'Test Expiration Time' settings. You can define a start and end date/time for when the test remains active. Candidates can only attempt the test during this active period. After the test expires, invited candidates cannot access it, the 'Invite' button is disabled, and you cannot invite new candidates. To check or modify the expiration time for your specific test, please go to the Tests tab, open the test, navigate to Settings > General, and review the 'Test Expiration Time' section. If the fields are empty, the test does not have a set expiration. If your candidates from October 2025 have not received new tests, it's likely because the test's active period has ended. You can extend the end date/time in the settings to reactivate it for those candidates.",Test Settings,replied,product_issue,"The support documents clearly explain how test expiration works and how to modify it, allowing me to provide a safe and accurate answer."
+site is down & none of the pages are accessible,,None,,,escalated,product_issue,"The user reports a site-wide outage, which is a high-impact technical issue not covered by the provided troubleshooting documents. This requires immediate investigation by engineering teams."
+"I'm noticing that you all have many default versions of roles. (e.g. front end developer for react, angular, vue.js, etc.) What do you consider best practice 
+for when to create a new test versus create a variant of the test? What are the advantages and disadvantages of using variants?","When should I create a variant versus
+ have a different test?",HackerRank,"Hello! Based on your question about when to create a test variant versus a separate test, here's the best practice guidance from our documentation:
+
+**Create a test variant** when you want a single assessment that adapts to different candidate profiles (e.g., front-end developers specializing in React, Angular, or Vue.js). Variants allow you to personalize evaluation based on roles, skills, or other criteria within one test. This eliminates managing separate tests, improves efficiency, and ensures candidates get the most relevant content.
+
+**Create separate tests** when you need completely distinct assessments that don't share a common structure or routing logic. This is appropriate for fundamentally different roles or when you don't need the centralized management that variants provide.
+
+**Advantages of variants:**
+- Single test management instead of multiple separate tests
+- Routing logic automatically assigns candidates to appropriate versions
+- Shared sections can be maintained once and applied to all variants
+- Consistent reporting and candidate tracking in one place
+
+**Disadvantages of variants:**
+- Requires at least two variants (can't have just one)
+- More complex setup with routing logic needed
+- All variants share the same test settings and branding
+
+For your front-end developer example, variants would be ideal since you're assessing the same role with different framework specializations. You can create one test with variants for React, Angular, and Vue.js, then use routing questions to assign candidates appropriately.",Test Creation,replied,feature_request,"The support documents clearly explain test variants and when to use them versus separate tests, allowing me to provide a comprehensive best practice answer."
+"Hi there
+
+We have sent a candidate a Hackerrank assessment already, but we have been informed that they require extra time. As the assessment is 105 minutes, they need an extra 50% extra time added (so around 53 minutes) in addition.
+
+Please can you provide step-by-step instruction on how we are to reinvite them.
+
+Do we find their profile in 'Candidates' , put in Add time 53 minutes and then click 'reinvite' and send the email? The email to the candidate says 105 minutes as the duration though still so not sure how we can check?
+
+Thanks","How to reinvite candidate to Hackerrank 
+assessment and add extra time",HackerRank,"Hello,
+
+To reinvite a candidate and add extra time before they start the test, you can use the 'Add Time Accommodation' feature. Since the candidate has not started the test yet, please follow these steps:
+
+1. Log in to your HackerRank for Work account.
+2. Go to the **Tests** tab and select the relevant test.
+3. Navigate to the **Candidates** tab.
+4. Select the checkbox next to the candidate's name.
+5. Click **More > Add Time Accommodation**.
+6. Enter the accommodation percentage. For an extra 50% (53 minutes on a 105-minute test), you can select the **50%** option or enter **50** in a custom field (percentages must be in multiples of five).
+7. Click **Save**. A success message will appear.
+8. Now, with the candidate still selected, click **Invite selected** to begin the reinvitation process. Follow the prompts to confirm the reinvite and send the new invitation.
+
+After applying the time accommodation, the updated duration (105 + 50% = 157.5 minutes) will appear in the test invite email and on the test landing page for the candidate. You do not need to delete the previous invite.
+
+If you encounter any issues or the candidate has already started the test, please escalate this ticket for further assistance.",Candidate Management,replied,product_issue,"The support documents provide clear, step-by-step instructions for adding time accommodation before a candidate starts a test and for reinviting candidates, which directly addresses the user's question."
+"i signed up using google login on hackerrank community , so i do not have a separate hackerrank password. please delete my account",,HackerRank,"To delete your HackerRank Community account that was created using Google login, you must first set a password for your account. According to our documentation, if you signed up using a third-party account like Google, you need to set a password before you can delete the account. Please follow the steps in the 'Resetting password' documentation to set a password. After that, you can log in, go to Settings, scroll to the 'Delete Accounts' section, and follow the deletion process. If you cannot access your Google account to set a password, please contact help@hackerrank.com for assistance.",account_deletion,replied,product_issue,"The support documents provide a clear procedure for deleting an account created with a third-party login, which requires setting a password first."
+"One of my claude conversations has some private info, i forgot to make a temporary chat, is there anything
+ else that can be done? like delete etc?",,Claude,"Yes, you can delete the conversation to remove it. According to our support documents, to delete an individual conversation, navigate to it, click on the conversation name at the top of the screen, and select 'Delete' from the options. For future sensitive chats, you can use incognito mode (available to all users) by clicking the ghost icon before starting a chat; incognito chats are not saved to your history or Claude's memory. Please note that while we have privacy protections, we recommend being thoughtful about sharing highly sensitive personal details like financial information, health records, passwords, or confidential documents.",conversation_management,replied,product_issue,"The support documents provide clear instructions for deleting conversations and information about incognito chats for privacy, so a safe and useful answer can be given."
+What is the name of the actor in Iron Man?,"Urgent, please help",None,"Thank you for contacting support. Your question about the actor in Iron Man is unrelated to HackerRank, Claude, or Visa products and services. Our support team can only assist with issues related to these specific platforms. For general inquiries, please consult other appropriate resources.",,replied,invalid,"The user's question is completely out of scope for the supported products, so a polite reply directing them elsewhere is the appropriate action."
+I bought Visa Traveller's Cheques from Citicorp and they were stolen in Lisbon last night. What do I do?,,Visa,"I'm sorry to hear your Visa Traveller's Cheques were stolen. According to our support documents, you should immediately call the issuing bank, Citicorp, to report them lost or stolen. The contact details for Citicorp are: Freephone: 1-800-645-6556 or Collect: 1-813-623-1709. Their customer service hours are Monday-Friday, 6:30 am to 2:30 pm EST, but automated cheque verification is available 24/7. You should also notify the local police in Lisbon. When you call, have information ready such as the cheque serial numbers, where and when you bought them, and details of the theft to help arrange a refund or replacement.",traveller's cheques,replied,product_issue,"The support documents provide a clear, direct procedure and specific contact information for reporting lost or stolen traveller's cheques issued by Citicorp, which matches the user's situation."
+Where can I report a lost or stolen Visa card from India?,Card stolen,Visa,"To report a lost or stolen Visa card from India, you can call Visa's Global Customer Assistance Service (GCAS) at +1 303 967 1090 from anywhere in the world, 24/7. This number is listed in the support documents for global assistance. Alternatively, you can refer to the country-specific phone list for India, though it is not explicitly listed. The GCAS representatives can help block your card and discuss emergency services.",lost_stolen_card,replied,product_issue,"The support documents provide a clear global phone number for reporting lost or stolen cards, which directly answers the user's question."
+Thank you for helping me,,None,"Thank you for your message. I'm here to help with HackerRank, Claude, and Visa support. However, your message didn't include a specific issue or question. Could you please describe the problem you're experiencing or the assistance you need? This will help me provide you with the most accurate support or direct you to the right resources.",,replied,invalid,"The user only sent a generic thank you without stating an actual issue, so I need to ask for clarification to provide relevant support."

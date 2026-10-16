@@ -1,0 +1,7 @@
+{
+  "status": "replied",
+  "product_area": "lost_stolen_card",
+  "response": "To report a lost or stolen Visa card from India, you can call Visa's Global Customer Assistance Service (GCAS) at +1 303 967 1090 from anywhere in the world, 24/7. This number is listed in the support documents for global assistance. Alternatively, you can refer to the country-specific phone list for India, though it is not explicitly listed. The GCAS representatives can help block your card and discuss emergency services.",
+  "justification": "The support documents provide a clear global phone number for reporting lost or stolen cards, which directly answers the user's question.",
+  "request_type": "product_issue"
+}

@@ -1,0 +1,995 @@
+{
+  "dataset_id": "support-rag-regression-v1",
+  "schema_version": "1.0.0",
+  "status": "candidate",
+  "created_date": "2026-10-16",
+  "schema_supplied_by_user": false,
+  "scope": "30 questions total across the supplied HackerRank, Claude, and Visa corpus; 10 questions per company.",
+  "answerability_scope": "source_document",
+  "source_document_id_convention": "Repository-relative POSIX path, matching the existing retriever's article path. Retain IDs across chunking and embedding experiments; update content hashes when source text changes.",
+  "source_text_normalization": "Decode UTF-8, remove a leading BOM, and normalize CRLF or CR to LF. Preserve all remaining Markdown and whitespace. Evidence offsets count Unicode code points from zero; end_char is exclusive. Line numbers are one-based. Markdown sources have no page numbers.",
+  "evaluation_notes": [
+    "No external knowledge or live policy verification is used. Expected answers describe the supplied corpus snapshot.",
+    "Questions, expected answers, and evidence are evaluation labels; do not add this dataset or the sample ticket answers to the retrieval index.",
+    "Score retrieval on answerable questions using the union of retrieved source spans: a document hit alone does not establish coverage of every supporting fact.",
+    "For unanswerable questions, source_document_id identifies the document whose answerability is being tested, not a positive retrieval target. Score abstention and the missing-information explanation separately from retrieval recall.",
+    "Unanswerable labels apply to the designated source document. They do not assert that the entire corpus lacks the information.",
+    "Category is the primary evaluation emphasis; questions may also exercise other skills. Multi-section questions require evidence from distinct headings or subsections."
+  ],
+  "source_documents": [
+    {
+      "document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/10440198-configure-custom-data-retention-controls-for-enterprise-plans.md",
+      "title": "Configure custom data retention controls for Enterprise plans",
+      "source_url": "https://support.claude.com/en/articles/10440198-configure-custom-data-retention-controls-for-enterprise-plans",
+      "content_sha256": "a09b1b863d7814f001c7912f344e25084ddfa2bc4f5822d60044237e5cf558b6"
+    },
+    {
+      "document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/13200993-restrict-access-to-claude-with-ip-allowlisting.md",
+      "title": "Restrict access to Claude with IP allowlisting",
+      "source_url": "https://support.claude.com/en/articles/13200993-restrict-access-to-claude-with-ip-allowlisting",
+      "content_sha256": "89a4b25a40aac76d4886427c7313ca3d5a1b899c5e7f9bcc1e56759b6e26b15e"
+    },
+    {
+      "document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/9970975-access-audit-logs.md",
+      "title": "Access audit logs",
+      "source_url": "https://support.claude.com/en/articles/9970975-access-audit-logs",
+      "content_sha256": "f68020a705e4535bb81130faf2e4fbbfbc6b8a56eb9858d2d8f3fce9283ee7bd"
+    },
+    {
+      "document_id": "data/hackerrank/screen/managing-tests/2979262079-modify-test-expiration-time.md",
+      "title": "Modify Test Expiration Time Prerequisite Modifying test expiration time",
+      "source_url": "https://support.hackerrank.com/articles/2979262079-modify-test-expiration-time",
+      "content_sha256": "28ea5760cd66067a4b0a4120ce36aaf477cb72645e74c836972d63027b822c5e"
+    },
+    {
+      "document_id": "data/hackerrank/screen/managing-tests/4811403281-adding-extra-time-for-candidates.md",
+      "title": "Extend Test Duration for Candidates Add Time Accommodation Add extra time",
+      "source_url": "https://support.hackerrank.com/articles/4811403281-adding-extra-time-for-candidates",
+      "content_sha256": "a11a4ce2d4ab87a6d5cbc432d801dc48b2a01f7bb9912fc7efecd6063c112de5"
+    },
+    {
+      "document_id": "data/hackerrank/screen/managing-tests/7530103378-test-variants.md",
+      "title": "Create Test Variants",
+      "source_url": "https://support.hackerrank.com/articles/7530103378-test-variants",
+      "content_sha256": "c323ee537e4bc5f517580c3d73e7dc3636e6ff60750fc52d90c0a0840fd7f3d0"
+    },
+    {
+      "document_id": "data/visa/support.md",
+      "title": "Visa Consumer Support",
+      "source_url": "https://www.visa.co.in/support.html",
+      "content_sha256": "4d7bf9158518fa80579fe4777eecfa5429d15d5c6749bfd52851893a05a7cdcc"
+    },
+    {
+      "document_id": "data/visa/support/small-business/data-security.md",
+      "title": "PYB – Data Security",
+      "source_url": "https://www.visa.co.in/support/small-business/data-security.html",
+      "content_sha256": "0fa433f4614db793408c1b2d0dd3cdd8605be4360547de37e7dc17cd0ac98d61"
+    },
+    {
+      "document_id": "data/visa/support/small-business/dispute-resolution.md",
+      "title": "Dispute Resolution",
+      "source_url": "https://www.visa.co.in/support/small-business/dispute-resolution.html",
+      "content_sha256": "ea86e03bfe532838f47e1d82f71cdecf65a7d17558d83208b6d37dd7a8b48d39"
+    },
+    {
+      "document_id": "data/visa/support/small-business/regulations-fees.md",
+      "title": "Rules + Interchange",
+      "source_url": "https://www.visa.co.in/support/small-business/regulations-fees.html",
+      "content_sha256": "78ab2ae407fb0ec85765bef7f7bc92f359af353f6da5fffe277e4d14df6e20bb"
+    }
+  ],
+  "questions": [
+    {
+      "id": "rag-hr-001",
+      "company": "HackerRank",
+      "category": "direct_factual",
+      "difficulty": "easy",
+      "question": "What access must I have to add time accommodation to a HackerRank test?",
+      "answerable": true,
+      "source_document_id": "data/hackerrank/screen/managing-tests/4811403281-adding-extra-time-for-candidates.md",
+      "expected_answer": "You must be the test owner or have editor access.",
+      "evidence": [
+        {
+          "quotation": "- You must be the test owner or have editor access.",
+          "section": "Add Time Accommodation > Prerequisites",
+          "page": null,
+          "start_char": 1403,
+          "end_char": 1454,
+          "line_start": 33,
+          "line_end": 33
+        }
+      ],
+      "supporting_facts": [
+        "The test owner can add time accommodation.",
+        "A user with editor access can also add time accommodation."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-hr-002",
+      "company": "HackerRank",
+      "category": "direct_factual",
+      "difficulty": "easy",
+      "question": "After extra time is added, what must a candidate who is still taking the test do to see the updated timer?",
+      "answerable": true,
+      "source_document_id": "data/hackerrank/screen/managing-tests/4811403281-adding-extra-time-for-candidates.md",
+      "expected_answer": "Refresh the test page to see the updated timer.",
+      "evidence": [
+        {
+          "quotation": "- A candidate who is still in a test session must refresh the page to see the updated timer.",
+          "section": "Add extra time > Adding extra time",
+          "page": null,
+          "start_char": 6063,
+          "end_char": 6155,
+          "line_start": 127,
+          "line_end": 127
+        }
+      ],
+      "supporting_facts": [
+        "An active candidate must refresh the page for the updated timer to appear."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-hr-003",
+      "company": "HackerRank",
+      "category": "multi_fact",
+      "difficulty": "medium",
+      "question": "For a bulk extra-time update in a variant-based test, which candidates can I select together, where is the extra time applied, and why might Add time be disabled?",
+      "answerable": true,
+      "source_document_id": "data/hackerrank/screen/managing-tests/4811403281-adding-extra-time-for-candidates.md",
+      "expected_answer": "Select candidates from the same variant and add minutes to the required sections. Selecting candidates from different variants disables Add time; filter to a single variant.",
+      "evidence": [
+        {
+          "quotation": "7.  In the **Add additional time** dialog, enter additional time (in minutes) for the required sections.",
+          "section": "Add extra time > Adding extra time in variant-based tests",
+          "page": null,
+          "start_char": 7621,
+          "end_char": 7725,
+          "line_start": 153,
+          "line_end": 153
+        },
+        {
+          "quotation": "- For bulk updates, select candidates from the same test variant. If you select candidates from different variants, the **Add time** option is disabled. Filter the candidate list to a single variant to continue.",
+          "section": "Add extra time > Adding extra time in variant-based tests",
+          "page": null,
+          "start_char": 7912,
+          "end_char": 8123,
+          "line_start": 161,
+          "line_end": 161
+        }
+      ],
+      "supporting_facts": [
+        "Bulk updates require candidates from one variant.",
+        "Additional minutes are entered for the required sections.",
+        "A selection spanning variants disables Add time; filtering to one variant resolves that selection problem."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-hr-004",
+      "company": "HackerRank",
+      "category": "exact_value",
+      "difficulty": "easy",
+      "question": "Before sending HackerRank test invites, which preset accommodation percentages are offered, and what increment must a custom percentage use?",
+      "answerable": true,
+      "source_document_id": "data/hackerrank/screen/managing-tests/4811403281-adding-extra-time-for-candidates.md",
+      "expected_answer": "The presets are 25%, 50%, 75%, and 100%. A custom percentage must be a multiple of five.",
+      "evidence": [
+        {
+          "quotation": "- Select **25%**, **50%**, **75%**, or **100%** to extend the test duration.",
+          "section": "Add Time Accommodation > Adding time accommodation before sending invites",
+          "page": null,
+          "start_char": 2347,
+          "end_char": 2423,
+          "line_start": 53,
+          "line_end": 53
+        },
+        {
+          "quotation": "1.  Enter a percentage in multiples of five.",
+          "section": "Add Time Accommodation > Adding time accommodation before sending invites",
+          "page": null,
+          "start_char": 2484,
+          "end_char": 2528,
+          "line_start": 57,
+          "line_end": 57
+        }
+      ],
+      "supporting_facts": [
+        "The preset percentages are 25%, 50%, 75%, and 100%.",
+        "Custom accommodation percentages use multiples of five."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-hr-005",
+      "company": "HackerRank",
+      "category": "exact_value",
+      "difficulty": "easy",
+      "question": "When an existing HackerRank test is converted to variants, what are the initial variant identifiers and the minimum number of variants required?",
+      "answerable": true,
+      "source_document_id": "data/hackerrank/screen/managing-tests/7530103378-test-variants.md",
+      "expected_answer": "The existing test becomes Variant 1, and Variant 2 opens for editing. A variant-based test requires at least two variants.",
+      "evidence": [
+        {
+          "quotation": "The system converts the existing test into **Variant 1** and opens **Variant 2**, where you can start creating the second version.",
+          "section": "Create Test Variants > Creating test variants",
+          "page": null,
+          "start_char": 1708,
+          "end_char": 1838,
+          "line_start": 39,
+          "line_end": 39
+        },
+        {
+          "quotation": "**Note:** A variant-based test requires at least two variants.",
+          "section": "Create Test Variants > Creating test variants",
+          "page": null,
+          "start_char": 1902,
+          "end_char": 1964,
+          "line_start": 41,
+          "line_end": 41
+        }
+      ],
+      "supporting_facts": [
+        "The existing test becomes Variant 1.",
+        "Variant 2 opens for the second version.",
+        "At least two variants are required."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-hr-006",
+      "company": "HackerRank",
+      "category": "paraphrase",
+      "difficulty": "medium",
+      "question": "A candidate already handed in a DevOps assessment and wants to resume the lab. Will adding minutes bring the environment back, and what should I do?",
+      "answerable": true,
+      "source_document_id": "data/hackerrank/screen/managing-tests/4811403281-adding-extra-time-for-candidates.md",
+      "expected_answer": "No. Submission purges the DevOps virtual machine, and added time does not restore access. Re-invite the candidate for a new attempt.",
+      "evidence": [
+        {
+          "quotation": "- Do not add time to a test that contains DevOps questions after it ends or after the candidate submits it. The system purges the virtual machine for DevOps questions upon submission, and added time does not restore access. To allow additional time, re-invite the candidate to take the test as a new attempt.",
+          "section": "Add extra time > Adding extra time",
+          "page": null,
+          "start_char": 6241,
+          "end_char": 6549,
+          "line_start": 131,
+          "line_end": 131
+        }
+      ],
+      "supporting_facts": [
+        "The DevOps virtual machine is purged upon submission.",
+        "Adding time after submission does not restore access.",
+        "A new invitation for a new attempt is the documented alternative."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-hr-007",
+      "company": "HackerRank",
+      "category": "multi_section",
+      "difficulty": "hard",
+      "question": "How do Time Accommodation and Add extra time differ in when they can be used and the units entered?",
+      "answerable": true,
+      "source_document_id": "data/hackerrank/screen/managing-tests/4811403281-adding-extra-time-for-candidates.md",
+      "expected_answer": "Time Accommodation is for candidates who have not started, before or after invitations, and uses percentages in multiples of five. Add extra time uses minutes during a test, after submission, or after the test ends; it must not be used after submission or test end for tests containing DevOps questions.",
+      "evidence": [
+        {
+          "quotation": "The **Add Time Accommodation** feature allows you to extend test duration either before or after sending candidate invites, as long as the candidate has not yet started the test.",
+          "section": "Add Time Accommodation",
+          "page": null,
+          "start_char": 1143,
+          "end_char": 1321,
+          "line_start": 27,
+          "line_end": 27
+        },
+        {
+          "quotation": "7.  Enter the accommodation percentage in multiples of five.",
+          "section": "Add Time Accommodation > Adding time accommodation after sending invites",
+          "page": null,
+          "start_char": 3839,
+          "end_char": 3899,
+          "line_start": 85,
+          "line_end": 85
+        },
+        {
+          "quotation": "The test timer runs continuously and does not pause for technical issues. If a candidate loses time because of internet connectivity or other issues, you can add extra time during the test, after the candidate submits, or after the test ends.",
+          "section": "Add extra time",
+          "page": null,
+          "start_char": 4728,
+          "end_char": 4970,
+          "line_start": 95,
+          "line_end": 95
+        },
+        {
+          "quotation": "7.  Enter the time in minutes.",
+          "section": "Add extra time > Adding extra time",
+          "page": null,
+          "start_char": 5995,
+          "end_char": 6025,
+          "line_start": 121,
+          "line_end": 121
+        },
+        {
+          "quotation": "Do not add time to a test that contains DevOps questions after it ends or after the candidate submits it.",
+          "section": "Add extra time > Adding extra time",
+          "page": null,
+          "start_char": 6243,
+          "end_char": 6348,
+          "line_start": 131,
+          "line_end": 131
+        }
+      ],
+      "supporting_facts": [
+        "Time Accommodation is restricted to candidates who have not started.",
+        "Accommodation can be applied before or after invitations.",
+        "Accommodation uses percentages in multiples of five.",
+        "Extra time uses minutes and can generally be added during or after a test.",
+        "Tests containing DevOps questions are an exception after submission or test end."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-hr-008",
+      "company": "HackerRank",
+      "category": "multi_section",
+      "difficulty": "hard",
+      "question": "I created test variants, but candidates cannot see them. What configuration is required, and after candidates finish, which reporting column and filter show their selected option?",
+      "answerable": true,
+      "source_document_id": "data/hackerrank/screen/managing-tests/7530103378-test-variants.md",
+      "expected_answer": "Add routing logic that maps response options to variants and confirm it. Variants without logic are invisible to candidates. After completion, use the Candidate Option column and filter on the Candidates tab.",
+      "evidence": [
+        {
+          "quotation": "5.  Select the appropriate variant for each option using the **Select Variant** dropdown.\n\n6.  Click **Confirm** to save and activate the routing logic.",
+          "section": "Create Test Variants > Assigning test variants to candidates",
+          "page": null,
+          "start_char": 6606,
+          "end_char": 6758,
+          "line_start": 121,
+          "line_end": 123
+        },
+        {
+          "quotation": "**Note:** Variants without logic will not be visible to any candidate until you add logic.",
+          "section": "Create Test Variants > Assigning test variants to candidates",
+          "page": null,
+          "start_char": 6825,
+          "end_char": 6915,
+          "line_start": 127,
+          "line_end": 127
+        },
+        {
+          "quotation": "After a candidate completes their assigned variant, go to the **Candidates** tab to view the variant they used. The **Candidate Option** column displays the option selected by each candidate.\n\nUse the **Candidate Option** filter to filter candidates by variant.",
+          "section": "Create Test Variants > Evaluating test variants",
+          "page": null,
+          "start_char": 6946,
+          "end_char": 7207,
+          "line_start": 131,
+          "line_end": 133
+        }
+      ],
+      "supporting_facts": [
+        "Routing response options must be mapped to variants and confirmed.",
+        "Variants without routing logic are not visible to candidates.",
+        "Candidate Option is the reporting column and filter on the Candidates tab."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-hr-009",
+      "company": "HackerRank",
+      "category": "unanswerable",
+      "difficulty": "medium",
+      "question": "According to the Extend Test Duration for Candidates article, what is the maximum custom Time Accommodation percentage allowed?",
+      "answerable": false,
+      "source_document_id": "data/hackerrank/screen/managing-tests/4811403281-adding-extra-time-for-candidates.md",
+      "expected_answer": null,
+      "evidence": [],
+      "supporting_facts": [],
+      "missing_information": "The article lists presets through 100% and requires custom percentages to be multiples of five, but states no maximum custom percentage. The largest preset does not establish the custom limit."
+    },
+    {
+      "id": "rag-hr-010",
+      "company": "HackerRank",
+      "category": "unanswerable",
+      "difficulty": "easy",
+      "question": "Using only the Modify Test Expiration Time article, what exact expiration date, time, and time zone are currently configured on my company's existing test?",
+      "answerable": false,
+      "source_document_id": "data/hackerrank/screen/managing-tests/2979262079-modify-test-expiration-time.md",
+      "expected_answer": null,
+      "evidence": [],
+      "supporting_facts": [],
+      "missing_information": "The article explains how expiration settings work but contains no test identifier or account-specific configured values. The actual test settings are required."
+    },
+    {
+      "id": "rag-cl-011",
+      "company": "Claude",
+      "category": "direct_factual",
+      "difficulty": "easy",
+      "question": "For Claude Enterprise, how long is data retained by default if no custom retention period is set?",
+      "answerable": true,
+      "source_document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/10440198-configure-custom-data-retention-controls-for-enterprise-plans.md",
+      "expected_answer": "Data is retained indefinitely by default unless a custom retention period is set.",
+      "evidence": [
+        {
+          "quotation": "- By default, data is retained indefinitely unless a custom retention period is set.",
+          "section": "Configure custom data retention controls for Enterprise plans > Important considerations",
+          "page": null,
+          "start_char": 2168,
+          "end_char": 2252,
+          "line_start": 42,
+          "line_end": 42
+        }
+      ],
+      "supporting_facts": [
+        "The default retention period is indefinite when no custom period is configured."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-cl-012",
+      "company": "Claude",
+      "category": "direct_factual",
+      "difficulty": "easy",
+      "question": "When Enterprise IP allowlisting is enabled, what happens to an authenticated request from an IP address that is not on the configured allowlist?",
+      "answerable": true,
+      "source_document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/13200993-restrict-access-to-claude-with-ip-allowlisting.md",
+      "expected_answer": "The request is blocked because its source IP address is not on the organization's allowlist.",
+      "evidence": [
+        {
+          "quotation": "When enabled, we validate the source IP address of every authenticated request against your organization's configured allowlist. Requests from IP addresses not added to the allowlist will be blocked.",
+          "section": "Restrict access to Claude with IP allowlisting",
+          "page": null,
+          "start_char": 781,
+          "end_char": 980,
+          "line_start": 20,
+          "line_end": 20
+        }
+      ],
+      "supporting_facts": [
+        "Every authenticated request's source IP is checked.",
+        "Requests from IP addresses outside the allowlist are blocked."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-cl-013",
+      "company": "Claude",
+      "category": "multi_fact",
+      "difficulty": "medium",
+      "question": "For which Claude organizations are audit logs available, which roles can export them, and where is the export initiated?",
+      "answerable": true,
+      "source_document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/9970975-access-audit-logs.md",
+      "expected_answer": "Audit logs are available only for Enterprise organizations. Organization Owners and Primary Owners can choose Export logs under Organization settings > Data and Privacy.",
+      "evidence": [
+        {
+          "quotation": "> Audit logs are available for Enterprise organizations only.",
+          "section": "Access audit logs",
+          "page": null,
+          "start_char": 345,
+          "end_char": 406,
+          "line_start": 16,
+          "line_end": 16
+        },
+        {
+          "quotation": "Organization Owners and Primary Owners can export data within **[Organization settings > Data and Privacy](https://claude.ai/admin-settings/data-privacy-controls)** and clicking the \"Export logs\" button.",
+          "section": "Access audit logs",
+          "page": null,
+          "start_char": 408,
+          "end_char": 611,
+          "line_start": 18,
+          "line_end": 18
+        }
+      ],
+      "supporting_facts": [
+        "Audit logs are restricted to Enterprise organizations.",
+        "Organization Owners and Primary Owners can export them.",
+        "The Export logs button is in Organization settings > Data and Privacy."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-cl-014",
+      "company": "Claude",
+      "category": "multi_fact",
+      "difficulty": "medium",
+      "question": "Does a Claude audit-log export contain chat and project titles or content, what does it include instead, and what alternative is stated for exporting chat inputs and outputs?",
+      "answerable": true,
+      "source_document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/9970975-access-audit-logs.md",
+      "expected_answer": "Audit logs exclude chat and project titles and content, exporting only their unique identifiers. Primary Owners can export chat inputs and outputs through data exports.",
+      "evidence": [
+        {
+          "quotation": "Please note that title and content of chats and projects are not available to be exported in audit logs (only their unique identifiers will be exported). However, chat inputs/outputs will be exportable by Primary Owners via **[data exports](https://support.claude.com/en/articles/9450526-how-can-i-export-my-claude-data)**.",
+          "section": "Access audit logs",
+          "page": null,
+          "start_char": 947,
+          "end_char": 1270,
+          "line_start": 20,
+          "line_end": 20
+        }
+      ],
+      "supporting_facts": [
+        "Chat and project titles and content are excluded from audit-log exports.",
+        "Their unique identifiers are exported instead.",
+        "Primary Owners can use data exports for chat inputs and outputs."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-cl-015",
+      "company": "Claude",
+      "category": "exact_value",
+      "difficulty": "medium",
+      "question": "In the Enterprise retention article's example, if the last conversation message is at 3PM UTC on March 1 and retention is 30 days, what exact deletion date and time are stated?",
+      "answerable": true,
+      "source_document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/10440198-configure-custom-data-retention-controls-for-enterprise-plans.md",
+      "expected_answer": "The example states midnight UTC on March 31; it does not specify a year.",
+      "evidence": [
+        {
+          "quotation": "If a conversation’s last message is at 3PM UTC on March 1 with a 30-day retention period, the deletion will occur at midnight UTC on March 31.",
+          "section": "Configure custom data retention controls for Enterprise plans > Example retention calculation",
+          "page": null,
+          "start_char": 2820,
+          "end_char": 2962,
+          "line_start": 57,
+          "line_end": 57
+        }
+      ],
+      "supporting_facts": [
+        "The example uses a last message at 3PM UTC on March 1.",
+        "The stated 30-day retention example deletes at midnight UTC on March 31.",
+        "No year is specified in the example."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-cl-016",
+      "company": "Claude",
+      "category": "paraphrase",
+      "difficulty": "medium",
+      "question": "Our Claude Enterprise workspace gives projects and conversations different lifetimes. For a conversation inside a project, which lifetime rule takes priority?",
+      "answerable": true,
+      "source_document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/10440198-configure-custom-data-retention-controls-for-enterprise-plans.md",
+      "expected_answer": "The project's custom retention period takes priority over the custom chat retention period.",
+      "evidence": [
+        {
+          "quotation": "- Note that your custom data retention periods set for projects will supersede your custom retention periods for any chats.",
+          "section": "Configure custom data retention controls for Enterprise plans > How data retention works",
+          "page": null,
+          "start_char": 1521,
+          "end_char": 1644,
+          "line_start": 28,
+          "line_end": 28
+        }
+      ],
+      "supporting_facts": [
+        "Custom project retention periods supersede custom chat retention periods."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-cl-017",
+      "company": "Claude",
+      "category": "paraphrase",
+      "difficulty": "medium",
+      "question": "Since our company restricted Claude by network location, employees using the corporate VPN are getting shut out. What network details should our organization supply, to whom, and whom should affected employees contact?",
+      "answerable": true,
+      "source_document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/13200993-restrict-access-to-claude-with-ip-allowlisting.md",
+      "expected_answer": "Compile all necessary CIDR ranges, including office locations, VPN exit points, and other approved access points, and share them with your Anthropic Contact or Sales team. Employees who believe they are blocked in error should contact their IT administrator.",
+      "evidence": [
+        {
+          "quotation": "If your Enterprise organization is interested in enabling an IP allowlist, please compile a list of all necessary CIDR ranges for your organization, including office locations, VPN exit points, and any other approved access points. Omitting required CIDR ranges could result in users getting locked out of Claude. Then, reach out to your Anthropic Contact or our [Sales team](https://claude.com/contact-sales) to share your list of CIDR ranges. They can add these to your account’s allowlist to enable the feature.",
+          "section": "Restrict access to Claude with IP allowlisting > How to configure IP allowlisting",
+          "page": null,
+          "start_char": 1100,
+          "end_char": 1614,
+          "line_start": 26,
+          "line_end": 26
+        },
+        {
+          "quotation": "Users should contact their IT administrator if they believe they're being blocked in error.",
+          "section": "Restrict access to Claude with IP allowlisting > How to configure IP allowlisting",
+          "page": null,
+          "start_char": 1709,
+          "end_char": 1800,
+          "line_start": 28,
+          "line_end": 28
+        }
+      ],
+      "supporting_facts": [
+        "The supplied CIDR ranges should cover offices, VPN exit points, and other approved access points.",
+        "Missing required CIDR ranges can lock users out.",
+        "The Anthropic Contact or Sales team receives the CIDR list and can add it to the allowlist.",
+        "Affected users should contact their IT administrator if blocking appears erroneous."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-cl-018",
+      "company": "Claude",
+      "category": "multi_section",
+      "difficulty": "hard",
+      "question": "Who can set custom retention for a Claude Enterprise organization, and what happens to already-outdated data when shorter settings are saved? Can that deleted data be recovered?",
+      "answerable": true,
+      "source_document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/10440198-configure-custom-data-retention-controls-for-enterprise-plans.md",
+      "expected_answer": "A Primary Owner or Owner can set custom retention. Saving the new settings immediately deletes data outside the new retention period, and that deletion is permanent and unrecoverable.",
+      "evidence": [
+        {
+          "quotation": "> This feature is available to Enterprise plan customers. To set custom retention periods for your organization, you must have either a Primary Owner or Owner role.",
+          "section": "Configure custom data retention controls for Enterprise plans",
+          "page": null,
+          "start_char": 522,
+          "end_char": 686,
+          "line_start": 16,
+          "line_end": 16
+        },
+        {
+          "quotation": "- When you modify retention settings, any data that falls outside the new retention period will be deleted immediately upon saving.\n- Data past its retention period will be permanently deleted and cannot be recovered.",
+          "section": "Configure custom data retention controls for Enterprise plans > Important considerations",
+          "page": null,
+          "start_char": 2253,
+          "end_char": 2470,
+          "line_start": 43,
+          "line_end": 44
+        }
+      ],
+      "supporting_facts": [
+        "The feature is for Enterprise customers, and configuration requires Primary Owner or Owner permissions.",
+        "Saving changed retention settings immediately deletes data outside the new period.",
+        "Data deleted past its retention period cannot be recovered."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-cl-019",
+      "company": "Claude",
+      "category": "unanswerable",
+      "difficulty": "medium",
+      "question": "Using only the extracted Access audit logs article, list the complete audit-log column schema in order, including every column name and data type.",
+      "answerable": false,
+      "source_document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/9970975-access-audit-logs.md",
+      "expected_answer": null,
+      "evidence": [],
+      "supporting_facts": [],
+      "missing_information": "The extraction contains a Log Structure heading and says audit logs consist of columns, but provides no column list or data types. The absent schema cannot be reconstructed from the surrounding prose."
+    },
+    {
+      "id": "rag-cl-020",
+      "company": "Claude",
+      "category": "unanswerable",
+      "difficulty": "easy",
+      "question": "Using only the Enterprise retention article, what custom chat and project retention periods are currently saved for my organization?",
+      "answerable": false,
+      "source_document_id": "data/claude/team-and-enterprise-plans/security-and-compliance/10440198-configure-custom-data-retention-controls-for-enterprise-plans.md",
+      "expected_answer": null,
+      "evidence": [],
+      "supporting_facts": [],
+      "missing_information": "The article describes defaults, examples, and configuration steps but contains no current organization-specific settings. Access to the organization's saved retention configuration is needed."
+    },
+    {
+      "id": "rag-vi-021",
+      "company": "Visa",
+      "category": "direct_factual",
+      "difficulty": "easy",
+      "question": "According to Visa's Data Security article, whom should a merchant contact immediately after a data breach?",
+      "answerable": true,
+      "source_document_id": "data/visa/support/small-business/data-security.md",
+      "expected_answer": "Contact the merchant's acquiring bank immediately.",
+      "evidence": [
+        {
+          "quotation": "In the event of a data breach, respond quickly. Contact your acquiring bank immediately.",
+          "section": "Suspect you’ve been compromised? > Overview",
+          "page": null,
+          "start_char": 855,
+          "end_char": 943,
+          "line_start": 29,
+          "line_end": 29
+        }
+      ],
+      "supporting_facts": [
+        "A merchant should immediately contact its acquiring bank after a data breach."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-vi-022",
+      "company": "Visa",
+      "category": "multi_fact",
+      "difficulty": "medium",
+      "question": "In the Rules + Interchange article, who exchanges interchange reimbursement fees, and what fee does a merchant negotiate and pay instead?",
+      "answerable": true,
+      "source_document_id": "data/visa/support/small-business/regulations-fees.md",
+      "expected_answer": "Interchange reimbursement fees are transfer fees between acquiring and issuing banks. Merchants negotiate and pay a merchant discount to their financial institution, typically as a percentage per transaction.",
+      "evidence": [
+        {
+          "quotation": "Visa uses interchange reimbursement fees as transfer fees between acquiring banks and issuing banks for each Visa card transaction.",
+          "section": "The Visa system > Interchange reimbursement fees > Get the latest information",
+          "page": null,
+          "start_char": 1059,
+          "end_char": 1190,
+          "line_start": 31,
+          "line_end": 31
+        },
+        {
+          "quotation": "Merchants do not pay interchange reimbursement fees – merchants negotiate and pay a “merchant discount” to their financial institution that is typically calculated as a percentage per transaction.",
+          "section": "The Visa system > Interchange reimbursement fees > Get the latest information",
+          "page": null,
+          "start_char": 1289,
+          "end_char": 1485,
+          "line_start": 33,
+          "line_end": 33
+        }
+      ],
+      "supporting_facts": [
+        "Interchange reimbursement fees are transfers between acquiring and issuing banks.",
+        "Merchants negotiate and pay a merchant discount to their financial institution.",
+        "The merchant discount is typically a percentage per transaction."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-vi-023",
+      "company": "Visa",
+      "category": "multi_fact",
+      "difficulty": "medium",
+      "question": "When a cardholder disputes a charge, who first receives the complaint, what record will the merchant's acquirer request, and how should the merchant send it?",
+      "answerable": true,
+      "source_document_id": "data/visa/support/small-business/dispute-resolution.md",
+      "expected_answer": "The cardholder contacts their issuer. The acquirer requests an accurate copy of the transaction record; the merchant should promptly fax or mail an accurate, legible copy to the acquirer.",
+      "evidence": [
+        {
+          "quotation": "A cardholder contacts their issuer to question a charge on their billing statement.",
+          "section": "Dispute Resolution > Responding to a dispute > Step 1: A cardholder disputes a transaction",
+          "page": null,
+          "start_char": 1390,
+          "end_char": 1473,
+          "line_start": 35,
+          "line_end": 35
+        },
+        {
+          "quotation": "Your acquirer contacts you for an accurate copy of the transaction record.",
+          "section": "Dispute Resolution > Responding to a dispute > Step 2: Find the transaction receipt",
+          "page": null,
+          "start_char": 1517,
+          "end_char": 1591,
+          "line_start": 39,
+          "line_end": 39
+        },
+        {
+          "quotation": "Promptly fax or mail an accurate, legible copy to keep the process on track.",
+          "section": "Dispute Resolution > Responding to a dispute > Step 3: Send a copy to your acquirer",
+          "page": null,
+          "start_char": 1635,
+          "end_char": 1711,
+          "line_start": 43,
+          "line_end": 43
+        }
+      ],
+      "supporting_facts": [
+        "The cardholder initially questions the charge with their issuer.",
+        "The acquirer asks the merchant for the transaction record.",
+        "The merchant should promptly fax or mail an accurate, legible copy to the acquirer."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-vi-024",
+      "company": "Visa",
+      "category": "exact_value",
+      "difficulty": "medium",
+      "question": "What deadlines does Visa's Data Security response checklist give for delivering the incident report and potentially compromised account numbers to the acquirer, and which account-number networks are named?",
+      "answerable": true,
+      "source_document_id": "data/visa/support/small-business/data-security.md",
+      "expected_answer": "Deliver the incident report within 3 working days of the incident. Deliver all potentially compromised Visa, Interlink, and Plus account numbers within 10 working days.",
+      "evidence": [
+        {
+          "quotation": "### Deliver an Incident Report to your acquirer\n\n- This should be done within 3 working days of the incident.",
+          "section": "Suspect you’ve been compromised? > Response checklist > Deliver an Incident Report to your acquirer",
+          "page": null,
+          "start_char": 1806,
+          "end_char": 1915,
+          "line_start": 51,
+          "line_end": 53
+        },
+        {
+          "quotation": "Deliver all potentially compromised Visa, Interlink and Plus account numbers within 10 working days.",
+          "section": "Suspect you’ve been compromised? > Response checklist > Deliver account numbers to your acquirer",
+          "page": null,
+          "start_char": 2122,
+          "end_char": 2222,
+          "line_start": 57,
+          "line_end": 57
+        }
+      ],
+      "supporting_facts": [
+        "The incident report is due to the acquirer within 3 working days of the incident.",
+        "Potentially compromised account numbers are due within 10 working days.",
+        "The named networks are Visa, Interlink, and Plus."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-vi-025",
+      "company": "Visa",
+      "category": "exact_value",
+      "difficulty": "easy",
+      "question": "According to the Rules + Interchange article, how much advance notice must a merchant give before beginning surcharging, and who must be notified?",
+      "answerable": true,
+      "source_document_id": "data/visa/support/small-business/regulations-fees.md",
+      "expected_answer": "Notify both Visa and the acquirer 30 days before beginning surcharging.",
+      "evidence": [
+        {
+          "quotation": "Merchants must notify Visa and their acquirer 30 days before they begin surcharging.",
+          "section": "The Visa system > Merchant credit surcharging > Before you start",
+          "page": null,
+          "start_char": 2021,
+          "end_char": 2105,
+          "line_start": 47,
+          "line_end": 47
+        }
+      ],
+      "supporting_facts": [
+        "Advance notice is 30 days.",
+        "Both Visa and the acquirer must be notified."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-vi-026",
+      "company": "Visa",
+      "category": "paraphrase",
+      "difficulty": "medium",
+      "question": "Our shop sometimes keys the same sale into the terminal twice or sends both copies of a receipt to the bank. What kind of dispute can that cause, and what handling does Visa recommend?",
+      "answerable": true,
+      "source_document_id": "data/visa/support/small-business/dispute-resolution.md",
+      "expected_answer": "These practices can cause duplicate transaction disputes. Void incorrect sales receipts and process each transaction only once.",
+      "evidence": [
+        {
+          "quotation": "Ensure that incorrect sales receipts are voided and that transactions are processed only once. Entering the same transaction into a terminal more than once, depositing both the merchant copy and the bank copy of the sales receipt with your acquirer or depositing the same transaction with more than one merchant bank can all result in “duplicate transaction” disputes.",
+          "section": "Dispute Resolution > Avoiding disputes > Be careful when logging transactions",
+          "page": null,
+          "start_char": 2617,
+          "end_char": 2985,
+          "line_start": 61,
+          "line_end": 61
+        }
+      ],
+      "supporting_facts": [
+        "Entering one sale multiple times or depositing both receipt copies can cause duplicate transaction disputes.",
+        "Incorrect receipts should be voided.",
+        "Each transaction should be processed only once."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-vi-027",
+      "company": "Visa",
+      "category": "paraphrase",
+      "difficulty": "easy",
+      "question": "Someone phoned claiming to represent Visa and asked me to share personal details. What does the supplied consumer-support page say I should do?",
+      "answerable": true,
+      "source_document_id": "data/visa/support.md",
+      "expected_answer": "Do not provide the information. Report a phone scam using Visa's name by contacting Visa; Visa says it does not call or email cardholders to request personal information.",
+      "evidence": [
+        {
+          "quotation": "If you receive a call or email asking for your information, do not provide it. You can report a phone scam that uses Visa’s name by [contacting us](/contact-us.html). Visa does not call or email cardholders and request personal information.",
+          "section": "Get support > FAQ > I was contacted by someone claiming to be from Visa. Is this real or a scam?",
+          "page": null,
+          "start_char": 7802,
+          "end_char": 8042,
+          "line_start": 164,
+          "line_end": 164
+        }
+      ],
+      "supporting_facts": [
+        "Do not provide information requested by such calls or emails.",
+        "Phone scams using Visa's name can be reported by contacting Visa.",
+        "Visa says it does not call or email cardholders to request personal information."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-vi-028",
+      "company": "Visa",
+      "category": "multi_section",
+      "difficulty": "hard",
+      "question": "For a suspected card-data breach, what does Visa say to do with the at-risk system's network connection and power, what evidence should be preserved, and which Visa group helps identify security deficiencies and verify PCI DSS compliance?",
+      "answerable": true,
+      "source_document_id": "data/visa/support/small-business/data-security.md",
+      "expected_answer": "Unplug the at-risk system's network cable without turning the system off, and save all logs and electronic evidence. Visa's Data Security Team helps identify security deficiencies and verify PCI DSS compliance.",
+      "evidence": [
+        {
+          "quotation": "- Detach the at-risk system from the network by unplugging the cable. Do not turn it off.",
+          "section": "Suspect you’ve been compromised? > Response checklist > To help protect and aid the investigation",
+          "page": null,
+          "start_char": 1356,
+          "end_char": 1445,
+          "line_start": 41,
+          "line_end": 41
+        },
+        {
+          "quotation": "- Save all logs and electronic evidence.",
+          "section": "Suspect you’ve been compromised? > Response checklist > To help protect and aid the investigation",
+          "page": null,
+          "start_char": 1578,
+          "end_char": 1618,
+          "line_start": 43,
+          "line_end": 43
+        },
+        {
+          "quotation": "### Data Security Team\n\n- Provides guidelines to assist your response to the incident\n- Supports you in identifying security deficiencies\n- Makes sure you take action to minimise future risk to account information\n- Helps you quickly verify PCI DSS compliance",
+          "section": "Suspect you’ve been compromised? > Visa response team > Data Security Team",
+          "page": null,
+          "start_char": 2850,
+          "end_char": 3109,
+          "line_start": 73,
+          "line_end": 78
+        }
+      ],
+      "supporting_facts": [
+        "The at-risk system should be disconnected by unplugging its network cable.",
+        "The at-risk system should not be turned off.",
+        "All logs and electronic evidence should be saved.",
+        "The Data Security Team assists with security deficiencies and PCI DSS verification."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-vi-029",
+      "company": "Visa",
+      "category": "multi_section",
+      "difficulty": "hard",
+      "question": "What losses can a merchant face from a chargeback, and when delivery is delayed, what should the customer be told and when should the merchant deposit the transaction?",
+      "answerable": true,
+      "source_document_id": "data/visa/support/small-business/dispute-resolution.md",
+      "expected_answer": "The merchant can lose both the transaction amount and merchandise and incur internal handling costs. Tell the customer about the delay and new expected delivery or service date. Do not deposit the transaction until the merchandise has shipped.",
+      "evidence": [
+        {
+          "quotation": "Chargeback can be costly for merchants – you could lose both the cash amount of the transaction as well as the related merchandise, and may also incur internal handling costs.",
+          "section": "Dispute Resolution > Protect your business > Safeguard your business with the right information",
+          "page": null,
+          "start_char": 893,
+          "end_char": 1068,
+          "line_start": 23,
+          "line_end": 23
+        },
+        {
+          "quotation": "If delivery of the cardholder’s purchase will be delayed, let the cardholder know about the delay as well as the new expected delivery or service date.",
+          "section": "Dispute Resolution > Avoiding disputes > Keep customers informed on the status of their transactions",
+          "page": null,
+          "start_char": 3052,
+          "end_char": 3203,
+          "line_start": 65,
+          "line_end": 65
+        },
+        {
+          "quotation": "Don’t deposit transactions with your merchant bank until you have shipped the related merchandise.",
+          "section": "Dispute Resolution > Avoiding disputes > Ship merchandise before depositing transaction",
+          "page": null,
+          "start_char": 3257,
+          "end_char": 3355,
+          "line_start": 69,
+          "line_end": 69
+        }
+      ],
+      "supporting_facts": [
+        "Chargebacks can cost the transaction amount, the merchandise, and internal handling expenses.",
+        "A delivery delay and the new expected delivery or service date should be communicated to the customer.",
+        "The transaction should not be deposited before the related merchandise is shipped."
+      ],
+      "missing_information": null
+    },
+    {
+      "id": "rag-vi-030",
+      "company": "Visa",
+      "category": "unanswerable",
+      "difficulty": "medium",
+      "question": "Using only the Rules + Interchange article, what exact merchant discount percentage will my bank charge my business on its next Visa sale?",
+      "answerable": false,
+      "source_document_id": "data/visa/support/small-business/regulations-fees.md",
+      "expected_answer": null,
+      "evidence": [],
+      "supporting_facts": [],
+      "missing_information": "The article says merchants negotiate a merchant discount with their financial institution but supplies no business-specific agreement or applicable percentage. The merchant's contracted pricing is required."
+    }
+  ]
+}

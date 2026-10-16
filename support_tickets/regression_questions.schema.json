@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Grounded support RAG regression candidates",
+  "type": "object",
+  "required": ["schema_version", "answerability_scope", "questions"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "answerability_scope": {"const": "source_document"},
+    "source_documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["document_id", "title", "source_url", "content_sha256"],
+        "properties": {
+          "document_id": {"type": "string", "pattern": "^data/"},
+          "title": {"type": "string", "minLength": 1},
+          "source_url": {"type": "string", "format": "uri"},
+          "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "questions": {
+      "type": "array",
+      "minItems": 30,
+      "maxItems": 30,
+      "items": {"$ref": "#/$defs/question"}
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": ["quotation", "section", "page"],
+      "properties": {
+        "quotation": {"type": "string", "minLength": 1},
+        "section": {"type": "string", "minLength": 1},
+        "page": {"type": "null"},
+        "start_char": {"type": "integer", "minimum": 0},
+        "end_char": {"type": "integer", "minimum": 1},
+        "line_start": {"type": "integer", "minimum": 1},
+        "line_end": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "question": {
+      "type": "object",
+      "required": ["id", "company", "category", "difficulty", "question", "answerable", "source_document_id", "expected_answer", "evidence", "supporting_facts", "missing_information"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^rag-(hr|cl|vi)-[0-9]{3}$"},
+        "company": {"enum": ["HackerRank", "Claude", "Visa"]},
+        "category": {"enum": ["direct_factual", "multi_fact", "exact_value", "paraphrase", "multi_section", "unanswerable"]},
+        "difficulty": {"enum": ["easy", "medium", "hard"]},
+        "question": {"type": "string", "minLength": 1},
+        "answerable": {"type": "boolean"},
+        "source_document_id": {"type": "string", "pattern": "^data/"},
+        "expected_answer": {"type": ["string", "null"]},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+        "supporting_facts": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "missing_information": {"type": ["string", "null"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"answerable": {"const": true}}},
+          "then": {
+            "properties": {
+              "category": {"not": {"const": "unanswerable"}},
+              "expected_answer": {"type": "string", "minLength": 1},
+              "evidence": {"minItems": 1},
+              "supporting_facts": {"minItems": 1},
+              "missing_information": {"type": "null"}
+            }
+          },
+          "else": {
+            "properties": {
+              "category": {"const": "unanswerable"},
+              "expected_answer": {"type": "null"},
+              "evidence": {"maxItems": 0},
+              "supporting_facts": {"maxItems": 0},
+              "missing_information": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

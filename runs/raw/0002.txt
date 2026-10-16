@@ -1,0 +1,7 @@
+{
+  "status": "escalated",
+  "product_area": "",
+  "response": "",
+  "justification": "The user reports a site-wide outage, which is a high-impact technical issue not covered by the provided troubleshooting documents. This requires immediate investigation by engineering teams.",
+  "request_type": "product_issue"
+}

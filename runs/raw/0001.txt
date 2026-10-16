@@ -1,0 +1,7 @@
+{
+  "status": "replied",
+  "product_area": "Test Settings",
+  "response": "Hello, thank you for your question. According to our documentation, a test's active period is controlled by its 'Test Expiration Time' settings. You can define a start and end date/time for when the test remains active. Candidates can only attempt the test during this active period. After the test expires, invited candidates cannot access it, the 'Invite' button is disabled, and you cannot invite new candidates. To check or modify the expiration time for your specific test, please go to the Tests tab, open the test, navigate to Settings > General, and review the 'Test Expiration Time' section. If the fields are empty, the test does not have a set expiration. If your candidates from October 2025 have not received new tests, it's likely because the test's active period has ended. You can extend the end date/time in the settings to reactivate it for those candidates.",
+  "justification": "The support documents clearly explain how test expiration works and how to modify it, allowing me to provide a safe and accurate answer.",
+  "request_type": "product_issue"
+}
