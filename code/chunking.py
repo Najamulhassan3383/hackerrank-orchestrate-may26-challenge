@@ -19,6 +19,7 @@ DATA_ROOT = ROOT / "data"
 
 MAX_CHARS = 8000
 PARAGRAPH_OVERLAP = 200
+STRATEGY_NAME = "heading_max8000_overlap200"
 
 COMPANIES = {
     "hackerrank": "HackerRank",
@@ -27,6 +28,7 @@ COMPANIES = {
 }
 
 _TITLE = re.compile(r'^title:\s*"?(.*?)"?\s*$', re.MULTILINE)
+_WORD = re.compile(r"\S+")
 
 
 @dataclass(frozen=True)
@@ -36,6 +38,22 @@ class Chunk:
     title: str
     heading: str
     body: str
+    chunk_index: int
+    char_count: int
+    word_count: int
+    token_count: int
+
+
+def count_text(text: str) -> tuple[int, int, int]:
+    """Return (char_count, word_count, approximate_token_count).
+
+    Token count is a cheap chars/4 estimate so we can compare strategies without
+    pulling a tokenizer dependency. Replace later if a model-specific count is needed.
+    """
+    char_count = len(text)
+    word_count = len(_WORD.findall(text))
+    token_count = max(1, (char_count + 3) // 4) if char_count else 0
+    return char_count, word_count, token_count
 
 
 def split_frontmatter(text: str) -> tuple[str, str]:
@@ -157,13 +175,19 @@ def chunk_article(path: Path, text: str) -> list[Chunk]:
     chunks: list[Chunk] = []
     for heading, content in sections:
         for piece in split_long_section(content):
+            body = embed_text(title, heading, piece)
+            char_count, word_count, token_count = count_text(body)
             chunks.append(
                 Chunk(
                     company=company,
                     path=relative,
                     title=title,
                     heading=heading,
-                    body=embed_text(title, heading, piece),
+                    body=body,
+                    chunk_index=len(chunks),
+                    char_count=char_count,
+                    word_count=word_count,
+                    token_count=token_count,
                 )
             )
     return chunks
@@ -201,11 +225,15 @@ def main() -> None:
     ]
     chunks = load_chunks(progress=True)
     whole = sum(1 for path in files if len(split_frontmatter(path.read_text(encoding="utf-8"))[1].strip()) <= MAX_CHARS)
-    longest = max(chunks, key=lambda chunk: len(chunk.body))
+    longest = max(chunks, key=lambda chunk: chunk.char_count)
     print(f"files {len(files)}")
     print(f"chunks {len(chunks)}")
     print(f"articles kept whole {whole}")
-    print(f"longest chunk {len(longest.body)} chars {longest.path}")
+    print(
+        f"longest chunk {longest.char_count} chars "
+        f"{longest.word_count} words ~{longest.token_count} tokens {longest.path}"
+    )
+    print(f"strategy {STRATEGY_NAME}")
 
 
 if __name__ == "__main__":

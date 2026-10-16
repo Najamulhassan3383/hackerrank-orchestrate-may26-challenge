@@ -71,6 +71,8 @@ def check_chunking() -> list[str]:
     short = chunk_article(ROOT / "data" / "visa" / "note.md", "# Hello\n\nShort article.")
     if len(short) != 1:
         failures.append(f"short article produced {len(short)} chunks")
+    elif short[0].chunk_index != 0 or short[0].word_count < 1 or short[0].token_count < 1:
+        failures.append("short chunk missing index or counts")
 
     heading = "## Section\n\n" + ("word " * 2000)
     body = "# Title\n\nIntro.\n\n" + heading
@@ -79,6 +81,12 @@ def check_chunking() -> list[str]:
     pieces = chunk_article(ROOT / "data" / "visa" / "note.md", body)
     if len(pieces) < 2:
         failures.append(f"long article produced {len(pieces)} chunks")
+    else:
+        indexes = [chunk.chunk_index for chunk in pieces]
+        if indexes != list(range(len(pieces))):
+            failures.append(f"chunk_index not sequential: {indexes}")
+        if any(chunk.char_count != len(chunk.body) for chunk in pieces):
+            failures.append("char_count does not match body length")
 
     notes = ROOT / "data" / "hackerrank" / "general-help" / "release-notes" / "notes.md"
     if not is_release_notes(notes):

@@ -48,7 +48,16 @@ python code/db.py
 
 The app connects with `DATABASE_URL`. If that variable is unset, it uses `postgresql://support:support@localhost:5432/support`, which matches the compose defaults.
 
-The `chunks` table is empty until an embedding step fills it. Each row holds the article text plus a `vector(1024)` from `BEDROCK_EMBEDDING_MODEL`. The ticket pipeline queries this table, so populate it before processing tickets.
+Schema lives in `db/init.sql` and is applied on first Postgres boot. `python code/db.py` also runs `ensure_schema()` so an existing volume picks up linkage tables without recreating the container. An older `chunks` table without `parent_id` is dropped once and must be re-indexed.
+
+Tables:
+
+- `documents` — parent article (`path`, `title`, `company`)
+- `embedding_models` — model name, provider, dimensions
+- `embedding_strategies` — strategy name plus chunking knobs (`max_chars`, `overlap_chars`)
+- `chunks` — body + `vector(1024)`, linked to parent/model/strategy, with `chunk_index`, `sister_ids`, `char_count` / `word_count` / `token_count`, and `content_hash`
+
+The `chunks` table is empty until an embedding step fills it. Retrieval filters by the active model and strategy so experiment runs do not mix embedding spaces.
 
 ## Chunking
 
@@ -60,10 +69,12 @@ python code/chunking.py
 
 ## Embedding
 
-`code/index_chunks.py` sends each chunk to `BEDROCK_EMBEDDING_MODEL` and stores the 1,024 numbers in `chunks`. A later run skips text that is already stored. `--rebuild` deletes the rows and starts over.
+`code/index_chunks.py` registers the model and strategy rows, upserts parent `documents`, embeds each chunk, and stores vectors with sister-ID linkage. A later run skips `(model, strategy, path, content_hash)` pairs already stored. `--rebuild` deletes only that model+strategy slice.
 
 ```bash
 python code/index_chunks.py
+python code/index_chunks.py --model amazon.titan-embed-text-v2:0 --strategy heading_max8000_overlap200
+python code/index_chunks.py --rebuild --strategy heading_max8000_overlap200
 ```
 
 ## Retrieval check
